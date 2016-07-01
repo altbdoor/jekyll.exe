@@ -1,4 +1,4 @@
 jekyll.exe
 ==========
 
-**Latest release: [vx.y.z](https://github.com/altbdoor/jekyll-exe/releases/tag/stable-vx.y.z)**
+**Latest release: [v3.0.5](https://github.com/altbdoor/jekyll-exe/releases/tag/stable-v3.0.5)**
