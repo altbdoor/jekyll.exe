@@ -5,6 +5,9 @@
 # "dependencies" array below, where it will be injected directly into the
 # /bin/jekyll file.
 
+CURRENT_DIR=$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )
+cd "$CURRENT_DIR"
+
 declare -a dependencies=(
 	'jekyll-watch'
 	'rouge'
@@ -56,33 +59,33 @@ echo "> Cleaning up..."
 rm -rf "$folder_name"
 
 # release log generation
-# echo "> Generating \"release.log\"..."
-# operating_system=$(wmic os get caption | grep "Windows")
-# ruby_version=$(ruby -v)
-# gem_version=$(gem -v)
+echo "> Generating \"release.log\"..."
+operating_system=$(wmic os get caption | grep "Windows")
+ruby_version=$(ruby -v)
+gem_version=$(gem -v)
 
-# cat > release.log << EOL
-# Known issues:
-# - None
+cat > release.log << EOL
+Known issues:
+- None
 
-# ---
+---
 
-# Subcommands:
-# - [ ] docs
-# - [ ] import
-# - [x] build, b
-# - [x] clean
-# - [x] doctor, hyde
-# - [x] help
-# - [x] new
-# - [x] serve, server, s
+Subcommands:
+- [ ] docs
+- [ ] import
+- [x] build, b
+- [x] clean
+- [x] doctor, hyde
+- [x] help
+- [x] new
+- [x] serve, server, s
 
-# ---
+---
 
-# Build environment:
-# - $operating_system
-# - $ruby_version
-# - RubyGems $gem_version
-# EOL
+Build environment:
+- $operating_system
+- $ruby_version
+- RubyGems $gem_version
+EOL
 
 echo "> Done. Check \"ocra.log\" for build details."
