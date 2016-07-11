@@ -13,9 +13,50 @@ Original README from [@nilliams](https://github.com/nilliams/jekyll.exe).
 
 ---
 
-I was working on a project which is pretty much static. [Jekyll](http://www.jekyllrb.com/) comes to mind as I have had a good experience with GitHub and Jekyll, but [setting it up on Windows is a lot of trouble](http://jekyll-windows.juthilo.com/). I found a blog on [building a jekyll.exe for Windows](http://www.nickw.it/jekyll-dot-exe/), but only v1.2.0 was available, and it is too old for my use. With the blog tutorial as reference, I successfully built [v2.5.3](https://github.com/altbdoor/jekyll-exe/tree/v2.5.x).
+#### About
 
-For downloads, check the [releases page](https://github.com/altbdoor/jekyll-exe/releases).
+Jekyll, and all of its dependencies bundled into an executable file, so Windows users can run Jekyll without installing Ruby, Ruby DevKit or any gems. Click [here](https://github.com/altbdoor/today-i-learned/blob/master/topics/Building%20Jekyll%20for%20Windows.md) to read how I got into building Jekyll v2.5.3.
+
+
+#### Building
+
+Make sure you have the following installed first.
+
+- MinGW
+- Ruby and Ruby DevKit
+- Gems:
+    - `ocra`
+    - `jekyll-watch`
+    - `rouge`
+    - `webrick`
+
+Using the Bash CLI, execute `build.sh` with the version number. For example, `./build.sh 2.5.3` will build Jekyll v2.5.3. The script will attempt to install the Jekyll version, if it is not installed yet. You can check the OCRA output in `ocra.log`.
+
+To run a series of simple tests, run `test.sh`. A folder called `jekyll-new-folder` will be created to test the Jekyll subcommands.
+
+If you need to add gems into the build, install the gem locally, then include the name of the gem in the `dependencies` array in `build.sh`.
+
+
+#### Note
+
+- The subcommands `docs` and `import` are not working by default, as their respective gems (`jekyll-docs` and `jekyll-import`) are not included as dependency.
+- The `jekyll-watch`, `rouge` and `webrick` gems are by default, included manually into `jekyll-{version}/bin/jekyll`, as OCRA was unable to properly guess them as dependency.
+- The extra gems are not included with OCRA's `--gemfile` as it would add Bundler as another dependency.
+- The test script does not test `jekyll serve`, as I do not know any reliable way to check the running process.
+
+
+#### Downloads
+
+The last versions that I have built manually are
+[v2.5.3](https://github.com/altbdoor/jekyll-exe/releases/tag/stable-v2.5.3),
+[v3.0.5](https://github.com/altbdoor/jekyll-exe/releases/tag/stable-v3.0.5) and
+[v3.1.6](https://github.com/altbdoor/jekyll-exe/releases/tag/stable-v3.1.6).
+They work fine, and all the steps involved are logged in the release page. However, having a build script properly streamlines the building process. Subsequent versions are built with the build script.
+
+Check the [releases](https://github.com/altbdoor/jekyll-exe/releases) page for builds done on my Windows machine.
+
+
+#### Credits
 
 My heartfelt thanks to the other developers and projects for making this possible.
 
