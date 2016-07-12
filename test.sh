@@ -4,6 +4,9 @@
 # codes. the serve subcommand is a little more difficult, as i do not know any
 # reliable way to check the running process.
 
+CURRENT_DIR=$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )
+cd "$CURRENT_DIR"
+
 function trigger_error () {
 	echo "<!> Test failed!"
 	exit 1

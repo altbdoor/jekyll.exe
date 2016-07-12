@@ -2,7 +2,7 @@
 
 # this script builds jekyll into a single exe file. specify the version, and it
 # *should* handle the rest. to add other dependency, list it in the
-# "dependencies" array below, where it will be injected directly into the
+# "dependencies" array below, where it will be included directly into the
 # /bin/jekyll file.
 
 CURRENT_DIR=$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )
@@ -60,32 +60,21 @@ rm -rf "$folder_name"
 
 # release log generation
 echo "> Generating \"release.log\"..."
-operating_system=$(wmic os get caption | grep "Windows")
+operating_system=$(wmic os get caption | grep "Windows" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 ruby_version=$(ruby -v)
 gem_version=$(gem -v)
+md5_hash=$(md5sum ./jekyll.exe | cut -d ' ' -f 1)
+sha1_hash=$(sha1sum ./jekyll.exe | cut -d ' ' -f 1)
 
 cat > release.log << EOL
-Known issues:
-- None
-
----
-
-Subcommands:
-- [ ] docs
-- [ ] import
-- [x] build, b
-- [x] clean
-- [x] doctor, hyde
-- [x] help
-- [x] new
-- [x] serve, server, s
-
----
-
-Build environment:
+Build information:
 - $operating_system
 - $ruby_version
 - RubyGems $gem_version
+
+Checksum information (for \`jekyll.exe\` only):
+- MD5: $md5_hash
+- SHA1: $sha1_hash
 EOL
 
 echo "> Done. Check \"ocra.log\" for build details."

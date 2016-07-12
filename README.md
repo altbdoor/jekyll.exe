@@ -26,9 +26,8 @@ Make sure you have the following installed first.
 - Ruby and Ruby DevKit
 - Gems:
     - `ocra`
-    - `jekyll-watch`
-    - `rouge`
     - `webrick`
+    - `rouge` ([Recommended for v2.x and below](https://jekyllrb.com/docs/templates/#code-snippet-highlighting))
 
 Using the Bash CLI, execute `build.sh` with the version number. For example, `./build.sh 2.5.3` will build Jekyll v2.5.3. The script will attempt to install the Jekyll version, if it is not installed yet. You can check the OCRA output in `ocra.log`.
 
@@ -47,13 +46,13 @@ If you need to add gems into the build, install the gem locally, then include th
 
 #### Downloads
 
-The last versions that I have built manually are
+The versions that I have built manually on my personal Windows machine are
 [v2.5.3](https://github.com/altbdoor/jekyll-exe/releases/tag/stable-v2.5.3),
 [v3.0.5](https://github.com/altbdoor/jekyll-exe/releases/tag/stable-v3.0.5) and
 [v3.1.6](https://github.com/altbdoor/jekyll-exe/releases/tag/stable-v3.1.6).
-They work fine, and all the steps involved are logged in the release page. However, having a build script properly streamlines the building process. Subsequent versions are built with the build script.
+They work fine, and all the steps involved are logged in the release page. However, having a build script properly streamlines the building process. Subsequent versions are built with the build script on [AppVeyor](https://ci.appveyor.com/project/altbdoor/jekyll-exe).
 
-Check the [releases](https://github.com/altbdoor/jekyll-exe/releases) page for builds done on my Windows machine.
+Check the [releases](https://github.com/altbdoor/jekyll-exe/releases) page for downloads.
 
 
 #### Credits
