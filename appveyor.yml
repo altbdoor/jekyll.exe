@@ -1,0 +1,37 @@
+version: '{branch}-{build}'
+branches:
+  only:
+  - /^v[0-9\.x]+$/
+skip_non_tags: true
+clone_script:
+- cmd: appveyor DownloadFile "%GITHUB_URL%/raw/master/build.sh" -FileName "c:\projects\jekyll-exe\build.sh"
+environment:
+  RUBY_VERSION: 22
+  GEM_INIT_DEPENDENCY: ocra webrick
+  GITHUB_URL: https://github.com/altbdoor/jekyll-exe
+install:
+- cmd: >-
+    set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
+
+    gem install %GEM_INIT_DEPENDENCY% --no-document
+build_script:
+- cmd: >-
+    bash "build.sh" "%APPVEYOR_REPO_TAG_NAME:stable-v=%"
+
+    7z a jekyll.zip jekyll.exe > nul
+
+    7z a logs.zip ocra.log release.log > nul
+test: off
+artifacts:
+- path: jekyll.zip
+- path: logs.zip
+deploy:
+- provider: GitHub
+  tag: $(appveyor_repo_tag_name)
+  release: pre-$(appveyor_repo_tag_name)
+  description: Pre-release, pending test.
+  auth_token:
+    secure: O9Z6n0mhyhIEg0+ellL+7mOgZWYDi+upenUB+nNcDIVR1+fcqt3s6WkeiqYQblYq
+  artifact: jekyll.zip,logs.zip
+  prerelease: true
+  force_update: true
