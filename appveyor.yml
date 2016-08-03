@@ -11,7 +11,7 @@ environment:
   BUILD_BUNDLER_DEPS: minima
 install:
 - cmd: >-
-    set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
+    set PATH=C:\MinGW\bin;C:\Ruby%RUBY_VERSION%\bin;%PATH%
 
     gem install %GEM_INIT_DEPENDENCY% --no-document
 build_script:
