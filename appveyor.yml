@@ -3,8 +3,6 @@ branches:
   only:
   - /^v[0-9\.x]+$/
 skip_non_tags: true
-clone_script:
-- cmd: appveyor DownloadFile "%GITHUB_URL%/raw/master/build.sh" -FileName "c:\projects\jekyll-exe\build.sh"
 environment:
   RUBY_VERSION: 22
   GEM_INIT_DEPENDENCY: ocra webrick
@@ -18,6 +16,8 @@ install:
     gem install %GEM_INIT_DEPENDENCY% --no-document
 build_script:
 - cmd: >-
+    appveyor DownloadFile "%GITHUB_URL%/raw/master/build.sh" -FileName "c:\projects\jekyll-exe\build.sh"
+
     bash "build.sh" "%APPVEYOR_REPO_TAG_NAME:stable-v=%" "%BUILD_INJECT_DEPS%" "%BUILD_BUNDLER_DEPS%"
 
     7z a jekyll.zip jekyll.exe > nul
