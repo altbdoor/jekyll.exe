@@ -31,7 +31,7 @@ deploy:
 - provider: GitHub
   tag: $(appveyor_repo_tag_name)
   release: pre-$(appveyor_repo_tag_name)
-  description: Pre-release, pending test.
+  description: https://ci.appveyor.com/project/altbdoor/jekyll-exe/build/$(appveyor_repo_branch)-$(appveyor_build_number)
   auth_token:
     secure: O9Z6n0mhyhIEg0+ellL+7mOgZWYDi+upenUB+nNcDIVR1+fcqt3s6WkeiqYQblYq
   artifact: jekyll.zip,logs.zip
