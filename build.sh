@@ -1,28 +1,35 @@
 #!/bin/bash
 
-# this script builds jekyll into a single exe file. specify the version, and it
-# *should* handle the rest. to add other dependency, list it in the
-# "dependencies" array below, where it will be included directly into the
-# /bin/jekyll file.
-
 CURRENT_DIR=$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )
 cd "$CURRENT_DIR"
 
-declare -a dependencies=(
-	'jekyll-watch'
-	'rouge'
-	'webrick'
-)
+VERSION="$1"
+
+OIFS="$IFS"
+IFS=','
+read -r -a INJECT_DEPS <<< "$2"
+read -r -a BUNDLER_DEPS <<< "$3"
+IFS="$OIFS"
 
 # ========================================
 
-VERSION="$1"
-
 # simple check version
-if [[ -z "$VERSION" ]]; then
-	echo "> Please specify the version to build. E.g. \"./build.sh 2.5.3\""
-	echo "> For a list of versions, use 'gem list \"^jekyll$\" -ra'"
-	exit 1
+if [[ -z "$VERSION" || "$VERSION" == "help" || "$VERSION" == "-h" ]]; then
+	cat << EOF
+Usage: ./build.sh VERSION [INJECT_DEPS] [BUNDLER_DEPS]
+Compiles Jekyll into a single .exe file for Windows with OCRA.
+
+  VERSION       Specifies the Jekyll version to build. E.g., "2.5.3". For a
+                list of versions, use 'gem list "^jekyll$" -ra'.
+  INJECT_DEPS   Optional, manually injects dependencies into the executable
+                Jekyll file, comma separated. E.g., "webrick,jekyll-watch".
+  BUNDLER_DEPS  Optional, manually injects dependencies via Bundler, comma
+                separated. E.g., "webrick,jekyll-watch".
+
+This script assumes that you already have installed whatever dependencies that
+you are looking to inject.
+EOF
+	exit 0
 fi
 
 # check if jekyll version was installed
@@ -36,27 +43,51 @@ fi
 echo "> Unpacking gem..."
 gem unpack jekyll -v "$VERSION"
 folder_name="jekyll-$VERSION"
+jekyll_bin=$(find "$folder_name" -name "jekyll" -type f | head -1)
 
 # manually add dependencies into jekyll
-echo "> Manually adding dependency..."
-sed_filename="temp.sed"
-echo -n "" > "$sed_filename"
+if [[ ${#INJECT_DEPS[@]} -gt 0 ]]; then
+	echo "> Manually injecting dependencies into Jekyll executable..."
+	
+	sed_filename="temp.sed"
+	touch "$sed_filename"
+	
+	for dep in "${INJECT_DEPS[@]}"; do
+		echo "require '$dep'" >> "$sed_filename"
+	done
+	
+	sed -i "/require ['\"]jekyll['\"]/r $sed_filename" "$jekyll_bin"
+	rm "$sed_filename"
+fi
 
-for dep in "${dependencies[@]}"; do
-	echo "require '$dep'" >> "$sed_filename"
-done
+# manually add dependencies into bundler
+gem_filename="Gemfile"
 
-sed -i "/require 'jekyll'/r $sed_filename" "$folder_name/bin/jekyll"
-rm "$sed_filename"
+if [[ ${#BUNDLER_DEPS[@]} -gt 0 ]]; then
+	echo "> Manually injecting dependencies into Bundler..."
+	touch "$gem_filename"
+	
+	echo -e 'source "https://rubygems.org"\n' >> "$gem_filename"
+	echo "gem 'jekyll', '$VERSION'" >> "$gem_filename"
+	for dep in "${BUNDLER_DEPS[@]}"; do
+		echo "gem '$dep'" >> "$gem_filename"
+	done
+fi
 
 # build with ocra
 echo "> Building..."
-ocra "$folder_name/bin/jekyll" "$folder_name/**" --console --gem-all > ocra.log 2>&1
+
+if [[ ! -f "$gem_filename" ]]; then
+	ocra "$jekyll_bin" "$folder_name/**" --console --gem-all > ocra.log 2>&1
+else
+	ocra "$jekyll_bin" "$folder_name/**" --gemfile "$gem_filename" --console --gem-all > ocra.log 2>&1
+fi
+
 sed -i -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" ocra.log
 
 # clean up gem unpack folder
 echo "> Cleaning up..."
-rm -rf "$folder_name"
+rm -rf "$folder_name" "$gem_filename" "$gem_filename.lock"
 
 # release log generation
 echo "> Generating \"release.log\"..."
