@@ -9,6 +9,8 @@ environment:
   RUBY_VERSION: 22
   GEM_INIT_DEPENDENCY: ocra webrick
   GITHUB_URL: https://github.com/altbdoor/jekyll-exe
+  BUILD_INJECT_DEPS: jekyll-watch,rouge,webrick
+  BUILD_BUNDLER_DEPS: 
 install:
 - cmd: >-
     set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
@@ -16,7 +18,7 @@ install:
     gem install %GEM_INIT_DEPENDENCY% --no-document
 build_script:
 - cmd: >-
-    bash "build.sh" "%APPVEYOR_REPO_TAG_NAME:stable-v=%"
+    bash "build.sh" "%APPVEYOR_REPO_TAG_NAME:stable-v=%" "%BUILD_INJECT_DEPS%" "%BUILD_BUNDLER_DEPS%"
 
     7z a jekyll.zip jekyll.exe > nul
 
