@@ -102,6 +102,10 @@ Build information:
 - $operating_system
 - $ruby_version
 - RubyGems $gem_version
+- Parameters:
+    - \`VERSION\`: \`$1\`
+    - \`INJECT_DEPS\`: \`$2\`
+    - \`BUNDLER_DEPS\`: \`$3\`
 
 Checksum information (for \`jekyll.exe\` only):
 - MD5: $md5_hash
