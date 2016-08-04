@@ -13,7 +13,9 @@ install:
 - cmd: >-
     set PATH=C:\Program Files\Git\usr\bin;C:\Ruby%RUBY_VERSION%\bin;%PATH%
 
-    bash -c 'echo "gem: --no-rdoc --no-ri" > ~/.gemrc'
+    gem sources --add https://rubygems.org
+
+    bash -c "echo 'gem: --no-document' >> ~/.gemrc"
 
     gem install %GEM_INIT_DEPENDENCY%
 build_script:
