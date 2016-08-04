@@ -13,7 +13,9 @@ install:
 - cmd: >-
     set PATH=C:\Program Files\Git\usr\bin;C:\Ruby%RUBY_VERSION%\bin;%PATH%
 
-    gem install %GEM_INIT_DEPENDENCY% --no-document
+    bash -c 'echo "gem: --no-rdoc --no-ri" > ~/.gemrc'
+
+    gem install %GEM_INIT_DEPENDENCY%
 build_script:
 - cmd: >-
     appveyor DownloadFile "%GITHUB_URL%/raw/master/build.sh" -FileName "c:\projects\jekyll-exe\build.sh"
@@ -21,12 +23,11 @@ build_script:
     bash "build.sh" "%APPVEYOR_REPO_TAG_NAME:stable-v=%" "%BUILD_INJECT_DEPS%" "%BUILD_BUNDLER_DEPS%"
 
     7z a jekyll.zip jekyll.exe > nul
-
-    7z a logs.zip ocra.log release.log > nul
 test: off
 artifacts:
 - path: jekyll.zip
-- path: logs.zip
+- path: ocra.log
+- path: release.log
 deploy:
 - provider: GitHub
   tag: $(appveyor_repo_tag_name)
@@ -34,6 +35,6 @@ deploy:
   description: https://ci.appveyor.com/project/altbdoor/jekyll-exe/build/$(appveyor_repo_branch)-$(appveyor_build_number)
   auth_token:
     secure: O9Z6n0mhyhIEg0+ellL+7mOgZWYDi+upenUB+nNcDIVR1+fcqt3s6WkeiqYQblYq
-  artifact: jekyll.zip,logs.zip
+  artifact: jekyll.zip,ocra.log,release.log
   prerelease: true
   force_update: true
