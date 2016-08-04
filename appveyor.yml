@@ -4,7 +4,7 @@ branches:
   - /^v[0-9\.x]+$/
 skip_non_tags: true
 environment:
-  RUBY_VERSION: 22
+  RUBY_VERSION: 21
   GEM_INIT_DEPENDENCY: ocra bundler webrick minima
   GITHUB_URL: https://github.com/altbdoor/jekyll-exe
   BUILD_INJECT_DEPS: digest/md5,webrick
@@ -25,11 +25,14 @@ build_script:
     bash "build.sh" "%APPVEYOR_REPO_TAG_NAME:stable-v=%" "%BUILD_INJECT_DEPS%" "%BUILD_BUNDLER_DEPS%"
 
     7z a jekyll.zip jekyll.exe > nul
+
+    gem list --local > gem_list.log
 test: off
 artifacts:
 - path: jekyll.zip
 - path: ocra.log
 - path: release.log
+- path: gem_list.log
 deploy:
 - provider: GitHub
   tag: $(appveyor_repo_tag_name)
@@ -37,6 +40,6 @@ deploy:
   description: https://ci.appveyor.com/project/altbdoor/jekyll-exe/build/$(appveyor_repo_branch)-$(appveyor_build_number)
   auth_token:
     secure: O9Z6n0mhyhIEg0+ellL+7mOgZWYDi+upenUB+nNcDIVR1+fcqt3s6WkeiqYQblYq
-  artifact: jekyll.zip,ocra.log,release.log
+  artifact: jekyll.zip,ocra.log,release.log,gem_list.log
   prerelease: true
   force_update: true
