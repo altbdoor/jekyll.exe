@@ -71,7 +71,7 @@ Check the [releases](https://github.com/altbdoor/jekyll-exe/releases) page for d
 #### Note
 
 - The subcommands `docs`, `import`, `new-theme` are not working or not fully tested. I do not consider them to be a part of the core Jekyll functions, and therefore, have no plans on supporting them.
-- Ruby 2.1 has been working very well for me. For unknown reasons, Ruby 2.2 successfully builds an executable which passes the test, but always complains about a Ruby-related error.
+- OCRA does not support Ruby 2.2 and above yet. Please check OCRA's GitHub page for confirmation.
 
 
 #### Credits
