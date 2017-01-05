@@ -5,7 +5,7 @@ branches:
 skip_non_tags: true
 environment:
   RUBY_VERSION: 21
-  GEM_INIT_DEPENDENCY: ocra bundler webrick minima jekyll-paginate
+  GEM_INIT_DEPENDENCY: ocra bundler webrick minima:1.0.1 jekyll-paginate
   GITHUB_URL: https://github.com/altbdoor/jekyll-exe
   BUILD_INJECT_DEPS: digest/md5,webrick,jekyll-paginate
   BUILD_BUNDLER_DEPS: minima
