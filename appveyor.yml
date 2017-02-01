@@ -5,10 +5,10 @@ branches:
 skip_non_tags: true
 environment:
   RUBY_VERSION: 21
-  GEM_INIT_DEPENDENCY: ocra webrick
+  GEM_INIT_DEPENDENCY: ocra bundler webrick jekyll-feed jekyll-paginate
   GITHUB_URL: https://github.com/altbdoor/jekyll-exe
-  BUILD_INJECT_DEPS: jekyll-watch,rouge,webrick
-  BUILD_BUNDLER_DEPS: 
+  BUILD_INJECT_DEPS: digest/md5,webrick,jekyll-paginate
+  BUILD_BUNDLER_DEPS: minima,jekyll-feed
 install:
 - cmd: >-
     set PATH=C:\Program Files\Git\usr\bin;C:\Ruby%RUBY_VERSION%\bin;%PATH%
