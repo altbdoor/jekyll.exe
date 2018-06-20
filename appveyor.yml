@@ -24,6 +24,8 @@ build_script:
 
     bash "build.sh" "%APPVEYOR_REPO_TAG_NAME:stable-v=%" "%BUILD_INJECT_DEPS%" "%BUILD_BUNDLER_DEPS%"
 
+    7z a jekyll.zip jekyll.exe > nul
+
     gem list --local > gem_list.log
 test: off
 artifacts:
