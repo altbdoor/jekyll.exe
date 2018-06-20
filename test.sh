@@ -78,6 +78,8 @@ cd ..
 echo '> Testing jekyll doctor, hyde'
 cd "$folder_name"
 
+echo "url: http://example.com" >> _config.yml
+
 ../jekyll.exe hyde
 if [[ ! $? -eq 0 ]]; then
 	trigger_error
