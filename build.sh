@@ -78,9 +78,9 @@ fi
 echo "> Building..."
 
 if [[ ! -f "$gem_filename" ]]; then
-	ocra "$jekyll_bin" "$folder_name/**" --no-autoload --add-all-core --console --gem-all > ocra.log 2>&1
+	ocra "$jekyll_bin" "$folder_name/**" --no-autoload --console --gem-all > ocra.log 2>&1
 else
-	ocra "$jekyll_bin" "$folder_name/**" --no-autoload --add-all-core --console --gem-all --gemfile "$gem_filename" > ocra.log 2>&1
+	ocra "$jekyll_bin" "$folder_name/**" --no-autoload --console --gem-all --gemfile "$gem_filename" > ocra.log 2>&1
 fi
 
 sed -i -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" ocra.log
