@@ -13,6 +13,10 @@ install:
 - cmd: >-
     set PATH=C:\Program Files\Git\usr\bin;C:\Ruby%RUBY_VERSION%\bin;%PATH%
 
+    appveyor DownloadFile "https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/rubygems.org/GlobalSignRootCA_R3.pem" -FileName "c:\projects\jekyll-exe\cert.pem"
+
+    set SSL_CERT_FILE=C:\projects\jekyll-exe\cert.pem
+
     gem sources --add https://rubygems.org
 
     bash -c "echo 'gem: --no-document' >> ~/.gemrc"
