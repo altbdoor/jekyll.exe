@@ -1,6 +1,8 @@
 jekyll.exe
 ==========
 
+⚠ _Last builds are available in https://github.com/altbdoor/jekyll-exe-2, built with GitHub Actions. This repository will no longer be maintained._
+
 Original README from [@nilliams](https://github.com/nilliams/jekyll.exe).
 
 > This is an effort to maintain small, portable Windows builds of [Jekyll](http://jekyllrb.com), built with [OCRA](http://ocra.rubyforge.org).
